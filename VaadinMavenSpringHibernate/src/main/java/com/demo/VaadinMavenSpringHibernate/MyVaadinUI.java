@@ -89,6 +89,7 @@ public class MyVaadinUI extends UI
 		user.setVeryLongDescription("Some long text here");
 		
 		// Getting a Session object:
+		// Session factory is created once per application.
 		Configuration configuration = new Configuration();
 		configuration.configure();
 		serviceRegistry = new ServiceRegistryBuilder().applySettings(
@@ -105,6 +106,22 @@ public class MyVaadinUI extends UI
 
 		// Ending the transaction:
 		session.getTransaction().commit();
+		session.close();
+		
+		//
+		// Fetching a saved object:
+		//
+		user = null;
+		
+		// Opening a new session:
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		// Getting the object:
+		user = (UserDetails) session.get(UserDetails.class, 1); // 1 - userId (primary key)
+		// seesion.get() has a return type of Object, so we need to cast it to out class.
+		
+		System.out.println("User name retrieved is " + user.getUserName());
 		// ************************************************************************************************
     }
 }
