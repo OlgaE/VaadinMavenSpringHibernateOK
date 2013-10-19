@@ -1,5 +1,7 @@
 package com.demo.VaadinMavenSpringHibernate;
 
+import java.util.Date;
+
 import javax.servlet.annotation.WebServlet;
 
 import org.hibernate.Session;
@@ -54,6 +56,12 @@ public class MyVaadinUI extends UI
         });
         layout.addComponent(button);
         
+        // Learning how to use postgresql database:
+        saveUserData();
+    }
+    
+    public static void saveUserData(){
+    	
 		// ********************************************************************************************
 		//
 		// Using postgresql with these data in pom.xml file:
@@ -71,10 +79,15 @@ public class MyVaadinUI extends UI
 		 * </dependency>
 		 */
 
+        // Setting data for the user:
 		UserDetails user = new UserDetails();
 		user.setUserId(1);
 		user.setUserName("The very first user)");
-
+		user.setDateJoined(new Date());
+		user.setAddress("First address");
+		user.setDescription("Description goes here");;
+		user.setVeryLongDescription("Some long text here");
+		
 		// Getting a Session object:
 		Configuration configuration = new Configuration();
 		configuration.configure();
@@ -94,5 +107,4 @@ public class MyVaadinUI extends UI
 		session.getTransaction().commit();
 		// ************************************************************************************************
     }
-
 }
